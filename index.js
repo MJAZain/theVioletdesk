@@ -1,87 +1,134 @@
-//Toggle Email Clipboard
-document.getElementById('email').addEventListener('click', function() {
-    var emailText = this.innerText;
-    var tempInput = document.createElement('input');
-    tempInput.value = emailText;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
-    alert('Email copied to clipboard: ' + emailText);
+document.addEventListener('DOMContentLoaded', () => {
+
+const navbar = document.querySelector(".navbar");
+const navbarMenu = document.querySelector(".navbarMenu"); 
+let lastScrollTop = 0;
+
+function closeMenuOnScrollUp() {
+    if (window.innerWidth <= 1024 && navbarMenu.classList.contains("show")) {
+        navbarMenu.classList.remove("show");
+    }
+}
+
+window.addEventListener("scroll", function () {
+    let scrollTop = document.documentElement.scrollTop || window.scrollY;
+
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+        navbar.classList.add("hide");
+    } else {
+        navbar.classList.remove("hide");
+        closeMenuOnScrollUp();
+    }
+
+    lastScrollTop = scrollTop;
 });
 
-// Toggle Menu
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.querySelector('.navbarToggle');
-    const dropdownMenu = document.querySelector('.navbarMenu');
-  
-    toggleButton.addEventListener('click', () => {
-      dropdownMenu.classList.toggle('active');
-    });
+    
+
+  const toggleButton = document.querySelector('.navbarToggle');
+  const dropdownMenu = document.querySelector('.navbarMenu');
+
+  toggleButton.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('show');
   });
 
-  window.addEventListener("scroll", function() {
-    var navbar = document.querySelector(".navbar");
-    navbar.classList.toggle("sticky", window.scrollY > 0);
-});
+  dropdownMenu.addEventListener('click', (event) => {
+      if (event.target.tagName === 'A') {
+          dropdownMenu.classList.remove('show');
+      }
+  });
 
-//projCar
-const items = document.querySelectorAll('.projCar .item');
-const next = document.getElementById('next');
-const prev = document.getElementById('prev');
-let active = 2;
+    const taskTitle = document.getElementById("taskTitle");
+    const priceDesc = document.getElementById("priceDesc");
+    const priceLink = document.getElementById("priceLink");
+    const priceContainer = document.getElementById("priceContainer");
+    const leftArrow = document.querySelector(".arrow.left");
+    const rightArrow = document.querySelector(".arrow.right");
 
-function updateItemStyles(item, index, stt) {
-    item.style.transform = `translateX(${index < active ? -120 * stt : 120 * stt}px) scale(${1 - 0.2 * stt}) perspective(16px) rotateY(${index < active ? 1 : -1}deg)`;
-    item.style.zIndex = -stt;
-    item.style.filter = 'blur(5px)';
-    item.style.opacity = stt > 2 ? 0 : 0.6;
-}
+    const categories = [
+        {
+            title: "Virtual Office Admin Assistant",
+            description:"Effortless Organization, Seamless Support – Your Virtual Office Admin Assistant for a Stress-Free Workflow!",
+            link: "public/portfolio/Portfolio.pdf",
+            price: [
+                { 
+                    headline: "Essential Support", 
+                    list: ["Email Management", "Calendar Management", "Data Entry", "File Organization", "Task Management"],
+                    tag: "400 USD/month",
+                    time: "On-Demand VA (5–15 hours/week)" 
+                },
+                { 
+                    headline: "Growing Business Support", 
+                    list: ["Everything in 'Essential Support', PLUS:", "Project Tracking & Coordination", "Exspense Tracking & Invoicing", "Customer Support"],
+                    tag: "600 USD/month",
+                    time: "Full-Time VA (30–40 hours/week)"
+                },
+                { 
+                    headline: "Full-service Admin Support", 
+                    list: ["Everything in 'Growing Business Support', PLUS:", "SOP Creation & Workflow Optimization", "Hands-on Client Communication","HR & Recruitment Support", "Priority Acess & Flexibilty"],
+                    tag: "1000 USD/month",
+                    time: "Full-Time VA (30–40 hours/week)" 
+                },
+            ],
+        },
+        {
+            title: "Website Development & Maintenance    ",
+            description:"Vortual Office is great",
+            link: "Download my PDF",
+            price: [
+                { 
+                    headline: "Basic Landing Page", 
+                    caption: "Caption",
+                    list: ["Task Management", "Calendar Management"],
+                    tag: "8 IDR/month",
+                    time: "" 
+                },
+            ],
+        },
+        
+    ];
+ 
+    let currentIndex = 0;
 
-function loadShow() {
-    items.forEach((item, index) => {
-        const stt = Math.abs(index - active);
-        if (index === active) {
-            item.style.transform = `none`;
-            item.style.zIndex = 1;
-            item.style.filter = 'none';
-            item.style.opacity = 1;
-        } else {
-            updateItemStyles(item, index, stt);
-        }
+    function updateTaskView() {
+        taskTitle.innerHTML = `<u>${categories[currentIndex].title}</u>`;
+        priceDesc.innerHTML = `<p>${categories[currentIndex].description}</p>`;
+        priceLink.innerHTML = `<a href="${categories[currentIndex].link}" download>Download our Portfolio!</a>`;
+
+        priceContainer.innerHTML = "";
+        
+        categories[currentIndex].price.forEach(price => {
+            const priceElement = document.createElement("div");
+            priceElement.classList.add("price");
+            const listItems = price.list.map(item => `<li>${item}</li>`).join("");
+    
+            priceElement.innerHTML = `
+                <h3>${price.headline}</h3>
+                <div class="list">
+                    <span>Services Includes:</span>
+                    <ul>${listItems}</ul>
+                    <span>${price.time}</span>
+                </div>
+                <h4>${price.tag}</h4>
+            `;
+    
+            priceContainer.appendChild(priceElement);
+        });
+    }
+
+    leftArrow.addEventListener("click", function () {
+        currentIndex = (currentIndex - 1 + categories.length) % categories.length;
+        updateTaskView();
     });
-}
 
-next.addEventListener('click', () => {
-    if (active < items.length - 1) active++;
-    loadShow();
-});
+    rightArrow.addEventListener("click", function () {
+        currentIndex = (currentIndex + 1) % categories.length;
+        updateTaskView();
+    });
 
-prev.addEventListener('click', () => {
-    if (active > 0) active--;
-    loadShow();
-});
+    updateTaskView();
 
-loadShow();
-
-let scrollContainer = document.querySelector(".eCont");
-let prevEdu = document.getElementById("prevEdu");
-let nextEdu = document.getElementById("nextEdu");
-
-scrollContainer.addEventListener("wheel", (evt) => {
-  evt.preventDeafult();
-  scrollContainer.scrollLeft += evt.deltaY;
-  scrollContainer.style.scrollBehavior = "auto";
-});
-
-nextEdu.addEventListener("click", () => {
-  scrollContainer.style.scrollBehavior = "smooth";
-  scrollContainer.scrollLeft += 1000;
-});
-
-prevEdu.addEventListener("click", () => {
-  scrollContainer.style.scrollBehavior = "smooth";
-  scrollContainer.scrollLeft -= 1000;
+   
 });
 
 
