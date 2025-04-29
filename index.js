@@ -40,7 +40,6 @@ window.addEventListener("scroll", function () {
 
     const taskTitle = document.getElementById("taskTitle");
     const priceDesc = document.getElementById("priceDesc");
-    const priceLink = document.getElementById("priceLink");
     const priceContainer = document.getElementById("priceContainer");
     const leftArrow = document.querySelector(".arrow.left");
     const rightArrow = document.querySelector(".arrow.right");
@@ -49,7 +48,6 @@ window.addEventListener("scroll", function () {
         {
             title: "Virtual Office Admin Assistant",
             description:"Effortless Organization, Seamless Support – Your Virtual Office Admin Assistant for a Stress-Free Workflow!",
-            link: "public/portfolio/Portfolio.pdf",
             price: [
                 { 
                     headline: "Essential Support", 
@@ -74,7 +72,6 @@ window.addEventListener("scroll", function () {
         {
             title: "Website Development & Maintenance    ",
             description:"Vortual Office is great",
-            link: "Download my PDF",
             price: [
                 { 
                     headline: "Basic Landing Page", 
@@ -93,7 +90,6 @@ window.addEventListener("scroll", function () {
     function updateTaskView() {
         taskTitle.innerHTML = `<u>${categories[currentIndex].title}</u>`;
         priceDesc.innerHTML = `<p>${categories[currentIndex].description}</p>`;
-        priceLink.innerHTML = `<a href="${categories[currentIndex].link}" download>Download our Portfolio!</a>`;
 
         priceContainer.innerHTML = "";
         

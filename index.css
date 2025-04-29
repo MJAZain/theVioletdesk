@@ -109,14 +109,13 @@ h1 {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    padding-top: 20vh;
     box-sizing: border-box;
 }
   
 .heroTitle {
     display: flex;
     flex-direction: column;
-    transform: translateX(40%);
+    transform: translateX(45%);
 }
   
 .heroHead {
@@ -124,11 +123,11 @@ h1 {
 }
 
 .heroHead h1 {
-    font-size: 9vh;
+    font-size: 64px;
 }
 
 .heroHead p {
-    font-size: 3vh;
+    font-size: 20px;
 }
 
 .heroContact {
@@ -137,7 +136,7 @@ h1 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 2vh;
+    font-size: 14px;
 }
 
 #blu {
